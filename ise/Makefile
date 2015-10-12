@@ -1,9 +1,7 @@
-#DEVICE = xc6slx9-2-ftg256 #XuLA2 lx9  
-#BOARD = xula2
-DEVICE = xc3s200-FT256-4
-BOARD = DigilentS3
+DEVICE = xc6slx9-2-tqg144
+BOARD = PapilioPro
 
-IMPACT_CMD_FILE := ../board/$(BOARD)/impact.cmd
+#IMPACT_CMD_FILE := ../board/$(BOARD)/impact.cmd
 UCF_FILE := ../board/$(BOARD)/top.ucf
 UT_FILE  := ../board/$(BOARD)/top.ut
 PRJ_FILE := ../src/top.prj
@@ -28,7 +26,7 @@ map: $(TOP)_map.ncd $(TOP).pcf
 par: $(TOP).ncd $(TOP).unroutes $(TOP).par $(TOP).twr
 bitgen: $(TOP).bit
 
-.SECONDARY: $(TOP).ngc $(TOP).srp $(TOP).ngd $(TOP).bld $(TOP)_map.ncd 
+.SECONDARY: $(TOP).ngc $(TOP).srp $(TOP).ngd $(TOP).bld $(TOP)_map.ncd
 .SECONDARY: $(TOP).pcf $(TOP).ncd $(TOP).unroutes $(TOP).par $(TOP).twr
 
 #-----------------------------------------------------------------------------
@@ -65,7 +63,7 @@ bitgen: $(TOP).bit
 	@rm -f $@
 	@echo "---------------------------------------------------------"
 	@echo "Checking design for timing errors and unroutes..."
-	@grep -i "all signals are completely routed" $(filter %.unroutes,$^) 
+	@grep -i "all signals are completely routed" $(filter %.unroutes,$^)
 	@grep -iq "timing errors:" $(filter %.twr,$^); \
 	if [ $$? -eq 0 ]; then \
 		grep -i "timing errors: 0" $(filter %.twr,$^); \
@@ -77,8 +75,8 @@ bitgen: $(TOP).bit
 
 #-----------------------------------------------------------------------------
 
-burn: $(TOP).bit $(IMPACT_CMD_FILE)
-	impact -batch $(IMPACT_CMD_FILE)
+burn: $(TOP).bit
+	sudo papilio-prog -f $(TOP).bit
 
 #-----------------------------------------------------------------------------
 

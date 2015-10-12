@@ -3,17 +3,14 @@ LED blinker
 
 ******************************************************************************/
 
- module top(
-  input   clk
-, output  led
-);
+module top(
+  input   CLK,
+  output  LED1);
 
-assign clken = 1;
-
-  reg[24:0] PC;
-  always @(posedge clk)
+  reg[22:0] PC;
+  always @(posedge CLK)
     PC <= PC+1;
 
-  assign led= PC[24];
+  assign LED1 = PC[22];
 
 endmodule
